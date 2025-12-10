@@ -24,5 +24,20 @@ const { title, description = "Premium Trade Services" } = Astro.props;
 	</head>
 	<body class="min-h-screen flex flex-col overflow-x-hidden">
 		<slot />
-	</body>
+	
+        <footer class="bg-gray-900 text-white py-12 mt-auto">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-sm text-gray-400">
+                    &copy; {new Date().getFullYear()} {title}. All rights reserved.
+                </div>
+                <div class="flex gap-6">
+                    <a href="/admin" class="text-sm font-semibold text-accent hover:text-white transition-colors flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M9 3v18"/><path d="m14 9 3 3-3 3"/></svg>
+                        Admin Portal
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </body>
 </html>
+
