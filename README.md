@@ -10,14 +10,14 @@ Featuring a built-in "Quote Command" admin portal.
 - **Trust Signals:** Integrated Trust Bar and Social Proof.
 - **Web Psychology:** Optimized specifically for trade conversion.
 
-## ??? Tech Stack
+##  Tech Stack
 
 - **Framework:** Astro 5.0
 - **Styling:** Tailwind CSS (v4)
 - **Interactivity:** React
 - **Icons:** Lucide React
 
-## ?? Quick Start
+##  Quick Start
 
 1. **Install Dependencies:**
    `ash
