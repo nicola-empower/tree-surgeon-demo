@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Outfit', sans-serif;
+  --color-primary: #14532d;
+  /* Green 900 */
+  --color-secondary: #064e3b;
+  /* Green 800 */
+  --color-accent: #65a30d;
+  /* Lime 600 - Fresh Leaves */
+  --color-bark: #854d0e;
+  /* Yellow 800 - Tree Bark */
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-primary antialiased selection:bg-accent/20 selection:text-white;
+  }
+}

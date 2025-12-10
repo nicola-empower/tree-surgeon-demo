@@ -1,0 +1,28 @@
+---
+import '@fontsource/outfit/400.css';
+import '@fontsource/outfit/500.css';
+import '@fontsource/outfit/700.css';
+import '../styles/global.css';
+
+interface Props {
+	title: string;
+    description?: string;
+}
+
+const { title, description = "Premium Trade Services" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body class="min-h-screen flex flex-col overflow-x-hidden">
+		<slot />
+	</body>
+</html>
