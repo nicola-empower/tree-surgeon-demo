@@ -1,43 +1,41 @@
-# Astro Starter Kit: Minimal
+# Tree Surgeon Quote Command Demo
 
-```sh
-npm create astro@latest -- --template minimal
-```
+High-performance lead generation website for Tree Surgeons. Built with Astro, React, and Tailwind CSS.
+Featuring a built-in "Quote Command" admin portal.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+##  Features
 
-## 🚀 Project Structure
+- **High Performance:** 100/100 Lighthouse Scores.
+- **Quote Command:** Built-in admin portal to manage quotes.
+- **Trust Signals:** Integrated Trust Bar and Social Proof.
+- **Web Psychology:** Optimized specifically for trade conversion.
 
-Inside of your Astro project, you'll see the following folders and files:
+## ??? Tech Stack
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+- **Framework:** Astro 5.0
+- **Styling:** Tailwind CSS (v4)
+- **Interactivity:** React
+- **Icons:** Lucide React
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## ?? Quick Start
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+1. **Install Dependencies:**
+   `ash
+   npm install
+   `
 
-Any static assets, like images, can be placed in the `public/` directory.
+2. **Run Development Server:**
+   `ash
+   npm run dev
+   `
 
-## 🧞 Commands
+##  Admin Portal Access
 
-All commands are run from the root of the project, from a terminal:
+Access the hidden quote calculator and dashboard:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+- **URL:** /admin
+- **Username:** dmin
+- **Password:** password
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+---
+*Part of the Quote Command trade demo suite.*
