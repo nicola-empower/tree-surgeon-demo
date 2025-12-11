@@ -1,0 +1,50 @@
+---
+interface Props {
+    service: string;
+    city: string;
+    areas: string[];
+    postcodes: string[];
+}
+
+const { service, city, areas, postcodes } = Astro.props;
+---
+
+<div class="py-12 bg-gray-50 border-t border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="max-w-4xl">
+            <h3
+                class="text-sm font-bold tracking-wider text-accent uppercase mb-4"
+            >
+                Local {service} Coverage
+            </h3>
+            <p class="text-base leading-relaxed text-gray-500 mb-6">
+                Proud to offer reliable <strong>{service}</strong> services across
+                <strong class="text-gray-900">{city}</strong> and surrounding areas.
+                Our team of certified professionals is available for emergency call-outs
+                and planned works in
+                {
+                    areas.map((area, index) => (
+                        <span>
+                            <strong class="text-gray-900">{area}</strong>
+                            {index < areas.length - 1 ? ", " : ""}
+                        </span>
+                    ))
+                }.
+            </p>
+
+            <div class="flex flex-wrap gap-2">
+                <span
+                    class="text-xs font-semibold text-gray-400 uppercase tracking-wide mr-2 py-1"
+                    >Areas Covered:</span
+                >
+                {
+                    postcodes.map((code) => (
+                        <span class="inline-flex items-center rounded-md bg-white px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                            {code}
+                        </span>
+                    ))
+                }
+            </div>
+        </div>
+    </div>
+</div>
