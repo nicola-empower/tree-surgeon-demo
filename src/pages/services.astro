@@ -1,0 +1,122 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Trees, Axe, FileText, CheckCircle2 } from "lucide-react";
+---
+
+<Layout title="Services | Oxford Arborists">
+    <main class="bg-green-50">
+        <!-- Header -->
+        <div class="bg-green-900 py-24 sm:py-32">
+            <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                <div class="mx-auto max-w-2xl lg:mx-0">
+                    <h1
+                        class="text-4xl font-header font-bold tracking-tight text-white sm:text-6xl"
+                    >
+                        Canopy Management
+                    </h1>
+                    <p class="mt-6 text-lg leading-8 text-green-100 font-body">
+                        Scientific tree care. We prioritize the health of the
+                        tree while ensuring safety and light for your property.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- content -->
+        <div class="mx-auto max-w-7xl px-6 lg:px-8 py-24">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                <!-- Crown Reduction -->
+                <div class="flex flex-col gap-6">
+                    <div
+                        class="h-16 w-16 bg-green-100 border border-green-200 rounded-2xl flex items-center justify-center text-green-700 mb-2 shadow-sm"
+                    >
+                        <Trees size={32} />
+                    </div>
+                    <h3 class="text-3xl font-header font-bold text-green-900">
+                        Crown Reduction & Thinning
+                    </h3>
+                    <p class="text-green-800 text-lg font-body">
+                        Increase light passage and reduce wind resistance
+                        without harming the tree. We follow BS3998 standards for
+                        all pruning works.
+                    </p>
+                    <ul class="space-y-3 text-green-800 mt-4 font-body">
+                        <li class="flex gap-2">
+                            <CheckCircle2 className="text-green-600" /> Preserves
+                            natural shape
+                        </li>
+                        <li class="flex gap-2">
+                            <CheckCircle2 className="text-green-600" /> Reduces root
+                            stress
+                        </li>
+                        <li class="flex gap-2">
+                            <CheckCircle2 className="text-green-600" /> Improves safety
+                            in storms
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Felling -->
+                <div class="flex flex-col gap-6">
+                    <div
+                        class="h-16 w-16 bg-green-100 border border-green-200 rounded-2xl flex items-center justify-center text-green-700 mb-2 shadow-sm"
+                    >
+                        <Axe size={32} />
+                    </div>
+                    <h3 class="text-3xl font-header font-bold text-green-900">
+                        Sectional Dismantling
+                    </h3>
+                    <p class="text-green-800 text-lg font-body">
+                        Safe removal of dangerous trees in confined spaces. We
+                        use rigging techniques to lower heavy timber safely,
+                        protecting your garden and buildings.
+                    </p>
+                    <ul class="space-y-3 text-green-800 mt-4 font-body">
+                        <li class="flex gap-2">
+                            <CheckCircle2 className="text-green-600" /> NPTC Qualified
+                            Climbers
+                        </li>
+                        <li class="flex gap-2">
+                            <CheckCircle2 className="text-green-600" /> 100% Green
+                            Waste Recycled
+                        </li>
+                        <li class="flex gap-2">
+                            <CheckCircle2 className="text-green-600" /> Stump Grinding
+                            available
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- TPO -->
+                <div class="flex flex-col gap-6">
+                    <div
+                        class="h-16 w-16 bg-green-100 border border-green-200 rounded-2xl flex items-center justify-center text-green-700 mb-2 shadow-sm"
+                    >
+                        <FileText size={32} />
+                    </div>
+                    <h3 class="text-3xl font-header font-bold text-green-900">
+                        TPO & Planning Applications
+                    </h3>
+                    <p class="text-green-800 text-lg font-body">
+                        Living in a Conservation Area? We handle all liaison
+                        with the Local Authority, submitting tree work
+                        applications on your behalf.
+                    </p>
+                    <ul class="space-y-3 text-green-800 mt-4 font-body">
+                        <li class="flex gap-2">
+                            <CheckCircle2 className="text-green-600" /> BS5837 Surveys
+                        </li>
+                        <li class="flex gap-2">
+                            <CheckCircle2 className="text-green-600" /> Tree Risk
+                            Assessments
+                        </li>
+                        <li class="flex gap-2">
+                            <CheckCircle2 className="text-green-600" /> Zero paperwork
+                            for you
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+</Layout>

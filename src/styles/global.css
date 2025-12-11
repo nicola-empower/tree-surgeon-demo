@@ -1,23 +1,32 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Outfit', sans-serif;
-  --color-primary: #14532d;
-  /* Green 900 */
-  --color-secondary: #064e3b;
-  /* Green 800 */
-  --color-accent: #65a30d;
-  /* Lime 600 - Fresh Leaves */
-  --color-bark: #854d0e;
-  /* Yellow 800 - Tree Bark */
+  --font-header: "Fraunces", serif;
+  --font-body: "Inter", sans-serif;
+
+  --color-accent: #166534;
+  /* green-700 */
+  --color-accent-hover: #14532d;
+  /* green-800 */
+
+  --radius-button: 1rem;
+  /* rounded-2xl */
 }
 
-@layer base {
-  html {
-    scroll-behavior: smooth;
+@layer utilities {
+  .font-header {
+    font-family: var(--font-header);
   }
 
-  body {
-    @apply bg-white text-primary antialiased selection:bg-accent/20 selection:text-white;
+  .font-body {
+    font-family: var(--font-body);
   }
+}
+
+/* Tree Surgeon Base Styles (Nature) */
+body {
+  background-color: #f0fdf4;
+  /* green-50 */
+  color: #14532d;
+  /* green-900 */
 }

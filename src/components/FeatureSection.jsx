@@ -41,7 +41,7 @@ const FeatureSection = ({
 
                     {/* Image Column */}
                     <div className={`relative ${align === 'left' ? 'lg:col-start-1' : ''}`}>
-                        <div className="aspect-[4/5] bg-gray-200 rounded-2xl overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-all duration-500">
+                        <div className="aspect-4/5 bg-gray-200 rounded-2xl overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-all duration-500">
                             <img
                                 src={imageSrc}
                                 alt="Feature detail"
