@@ -1,4 +1,6 @@
 ---
+import ProcessFlow from "../components/ProcessFlow.jsx";
+import ServiceAreaMap from "../components/ServiceAreaMap.jsx";
 import Layout from "../layouts/Layout.astro";
 import TrustBar from "../components/TrustBar.jsx";
 import Testimonials from "../components/Testimonials.jsx";
@@ -112,7 +114,11 @@ import FAQ from "../components/FAQ.jsx";
 		</div>
 	<Testimonials client:visible />
         <FAQ client:visible />
-    </main>
+    
+		<ProcessFlow client:visible />
+		<ServiceAreaMap client:only="react" />
+	</main>
 </Layout>
+
 
 

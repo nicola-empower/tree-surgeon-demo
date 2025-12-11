@@ -15,9 +15,11 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "astro": "^5.16.4",
+    "leaflet": "^1.9.4",
     "lucide-react": "^0.559.0",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
+    "react-leaflet": "^5.0.0",
     "tailwindcss": "^4.1.17"
   }
 }
