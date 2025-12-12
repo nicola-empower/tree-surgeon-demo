@@ -1,0 +1,32 @@
+---
+import JobManager from '../../components/admin/JobManager';
+---
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Management - Royal Oak</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+    <a href="https://empowerdigitalsolutions.co.uk/trades" class="fixed top-4 left-4 z-[9999] bg-black/80 text-white px-3 py-1 rounded-full text-xs font-medium hover:bg-black transition-all border border-white/20 shadow-lg no-underline backdrop-blur-sm">&larr; Back to Trades</a>
+    
+    <div class="max-w-7xl mx-auto px-4 md:px-12 pt-6 flex justify-end">
+        <a href="/admin/dashboard" class="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-gray-900 bg-white px-3 py-1 rounded-lg border border-gray-200">
+            &larr; Back to Dashboard
+        </a>
+    </div>
+
+    <main class="max-w-7xl mx-auto py-12 px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
+            <div>
+                <h1 class="text-3xl font-extrabold text-gray-900">Job Board</h1>
+                <p class="text-gray-500 mt-2">Manage your schedule and task status.</p>
+            </div>
+        </div>
+
+        <JobManager client:load />
+    </main>
+</body>
+</html>

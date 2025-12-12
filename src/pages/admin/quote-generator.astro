@@ -1,0 +1,596 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- NEW: Updated Title -->
+    <title>Green Canopy - Proposal Generator (Demo)</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <style>
+        /* Using Inter font for a clean, professional look */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            /* NEW: Updated gradient - softer, more premium */
+            background: linear-gradient(135deg, #F0FDF4 0%, #059669 100%); /* pink-50 to purple-50 */
+            overflow-x: hidden;
+        }
+
+        /* --- Glassmorphism Styles --- */
+        .glass-card, .glass-modal-content {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* --- NEW: Custom App Colors (Thistle & Rose) --- */
+        .text-brand-purple { color: #15803D; } /* purple-800 */
+        .bg-brand-purple { background-color: #15803D; }
+        .border-brand-purple { border-color: #15803D; }
+        .hover\:bg-brand-purple-hover:hover { background-color: #064E3B; } /* purple-900 */
+        
+        .bg-brand-purple-light { background-color: #DCFCE7; } /* purple-100 */
+
+        .text-brand-pink { color: #064E3B; } /* pink-600 */
+        .bg-brand-pink { background-color: #064E3B; }
+        .hover\:bg-brand-pink-hover:hover { background-color: #15803D; } /* pink-700 */
+
+        .text-brand-graphite { color: #374151; } /* gray-700 */
+
+        /* --- Tab Navigation --- */
+        .tab-button {
+            transition: all 0.2s ease;
+            border-bottom: 3px solid transparent;
+        }
+        .tab-button.active {
+            color: #15803D; /* brand-purple */
+            border-bottom-color: #15803D;
+        }
+        .tab-button:hover:not(.active) {
+            background-color: rgba(255, 255, 255, 0.5);
+            color: #111827; /* gray-900 */
+        }
+
+        /* --- Page Transitions --- */
+        .tab-content {
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .tab-content.active {
+            display: block; /* Shown when active */
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Generic Modal Styles --- */
+        .modal {
+            display: none; /* Use 'flex' to show */
+            animation: fadeIn 0.2s ease-out;
+        }
+        .modal-content-inner {
+            animation: slideUp 0.3s ease-out;
+            max-height: 90vh;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom Checkbox */
+        .service-checkbox {
+            display: none; /* Hide default checkbox */
+        }
+        .service-checkbox + label {
+            transition: all 0.2s ease;
+        }
+        .service-checkbox:checked + label {
+            border-color: #15803D;
+            background-color: #DCFCE7; /* Lighter purple */
+            box-shadow: 0 4px 10px rgba(107, 33, 168, 0.1);
+        }
+        .service-checkbox:checked + label .checkbox-icon {
+            background-color: #15803D;
+            border-color: #15803D;
+            transform: scale(1);
+        }
+        .service-checkbox:checked + label .checkbox-icon-inner {
+            opacity: 1;
+        }
+        .checkbox-icon {
+            transition: all 0.2s ease;
+            transform: scale(0.9);
+        }
+        .checkbox-icon-inner {
+            transition: opacity 0.1s ease;
+            opacity: 0;
+        }
+        
+        .confirmation-message {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Stop link click from toggling checkbox */
+        .service-link {
+            transition: all 0.2s ease;
+        }
+        .service-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-12">
+    <!-- Global Navigation -->
+    <a href="https://empowerdigitalsolutions.co.uk/trades" class="fixed top-4 left-4 z-[9999] bg-black/80 text-white px-3 py-1 rounded-full text-xs font-medium hover:bg-black transition-all border border-white/20 shadow-lg no-underline backdrop-blur-sm">&larr; Back to Trades</a>
+
+    <div class="max-w-7xl mx-auto px-4 md:px-12 pt-6 flex justify-end">
+        <a href="/admin/dashboard" class="inline-flex items-center gap-2 text-sm font-semibold text-brand-purple hover:underline bg-white/50 px-3 py-1 rounded-lg border border-brand-purple/20">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Back to Dashboard
+        </a>
+    </div>
+
+    <main class="max-w-7xl mx-auto w-full">
+        <!-- Header -->
+        <header class="mb-8">
+            <!-- NEW: Updated Title -->
+            <h1 class="text-4xl font-extrabold text-brand-graphite">Green Canopy - Proposal Generator</h1>
+            <p class="text-lg text-gray-600">A "Bespoke Web App Development" portfolio demo.</p>
+        </header>
+
+        <!-- Dev Note -->
+        <div class="glass-card mb-8 p-4 border-l-4 border-brand-purple rounded-lg">
+            <h4 class="font-bold text-brand-purple">Portfolio Dev Note:</h4>
+            <!-- NEW: Updated Dev Note text -->
+            <p class="text-gray-700">This demo showcases a two-part client acquisition tool for a fictional events company, "Green Canopy".
+                <br>1. Select items in the <strong>Instant Quote Generator</strong> and watch the total update.
+                <br>2. Go to the <strong>Proposal Builder</strong> tab and see how the price and scope have been automatically pulled through.
+                <br>3. Click <strong>Generate Proposal</strong> to see the final document, then click <strong>Send</strong> to see the simulated follow-up workflow.
+            </p>
+        </div>
+
+        <!-- Main App Container -->
+        <div class="glass-card rounded-2xl shadow-xl w-full">
+            <!-- Tab Navigation -->
+            <nav class="flex border-b border-gray-200">
+                <button class="tab-button active flex-1 md:flex-none p-4 md:px-8 font-bold text-lg text-gray-500 flex items-center justify-center gap-2" data-tab="quoter">
+                    <i data-lucide="file-spreadsheet" class="w-5 h-5"></i>
+                    <span>1. Instant Quote Generator</span>
+                </button>
+                <button class="tab-button flex-1 md:flex-none p-4 md:px-8 font-bold text-lg text-gray-500 flex items-center justify-center gap-2" data-tab="builder">
+                    <i data-lucide="file-pen" class="w-5 h-5"></i>
+                    <span>2. Proposal Builder</span>
+                </button>
+            </nav>
+
+            <!-- ======================= -->
+            <!-- == 1. QUOTE GENERATOR TAB == -->
+            <!-- ======================= -->
+            <div id="quoter-tab" class="tab-content active p-6 md:p-8">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Service Selection --><div class="lg:col-span-2 space-y-6">                        <div>
+                            <h3 class="text-2xl font-bold text-brand-graphite mb-4">Available Services</h3>
+                            <div class="space-y-3">
+                                                                <input type="checkbox" class="service-checkbox" id="service1" data-price="800" data-label="Tree Felling">
+                                <label for="service1" class="flex items-center justify-between p-4 bg-white rounded-lg border border-gray-200 cursor-pointer hover:border-gray-400">
+                                    <span class="flex items-center gap-3">
+                                        <span class="checkbox-icon w-6 h-6 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center">
+                                            <i data-lucide="check" class="checkbox-icon-inner w-4 h-4 text-white"></i>
+                                        </span>
+                                        <span class="font-medium text-brand-graphite">Tree Felling</span>
+                                    </span>
+                                    <span class="font-bold text-brand-purple text-lg">Â£800</span>
+                                </label>                                <input type="checkbox" class="service-checkbox" id="service2" data-price="450" data-label="Crown Reduction">
+                                <label for="service2" class="flex items-center justify-between p-4 bg-white rounded-lg border border-gray-200 cursor-pointer hover:border-gray-400">
+                                    <span class="flex items-center gap-3">
+                                        <span class="checkbox-icon w-6 h-6 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center">
+                                            <i data-lucide="check" class="checkbox-icon-inner w-4 h-4 text-white"></i>
+                                        </span>
+                                        <span class="font-medium text-brand-graphite">Crown Reduction</span>
+                                    </span>
+                                    <span class="font-bold text-brand-purple text-lg">Â£450</span>
+                                </label>                                <input type="checkbox" class="service-checkbox" id="service3" data-price="150" data-label="Stump Grinding">
+                                <label for="service3" class="flex items-center justify-between p-4 bg-white rounded-lg border border-gray-200 cursor-pointer hover:border-gray-400">
+                                    <span class="flex items-center gap-3">
+                                        <span class="checkbox-icon w-6 h-6 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center">
+                                            <i data-lucide="check" class="checkbox-icon-inner w-4 h-4 text-white"></i>
+                                        </span>
+                                        <span class="font-medium text-brand-graphite">Stump Grinding</span>
+                                    </span>
+                                    <span class="font-bold text-brand-purple text-lg">Â£150</span>
+                                </label>                                <input type="checkbox" class="service-checkbox" id="service4" data-price="200" data-label="Hedge Trimming">
+                                <label for="service4" class="flex items-center justify-between p-4 bg-white rounded-lg border border-gray-200 cursor-pointer hover:border-gray-400">
+                                    <span class="flex items-center gap-3">
+                                        <span class="checkbox-icon w-6 h-6 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center">
+                                            <i data-lucide="check" class="checkbox-icon-inner w-4 h-4 text-white"></i>
+                                        </span>
+                                        <span class="font-medium text-brand-graphite">Hedge Trimming</span>
+                                    </span>
+                                    <span class="font-bold text-brand-purple text-lg">Â£200</span>
+                                </label>                                <input type="checkbox" class="service-checkbox" id="service5" data-price="80" data-label="TPO Application">
+                                <label for="service5" class="flex items-center justify-between p-4 bg-white rounded-lg border border-gray-200 cursor-pointer hover:border-gray-400">
+                                    <span class="flex items-center gap-3">
+                                        <span class="checkbox-icon w-6 h-6 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center">
+                                            <i data-lucide="check" class="checkbox-icon-inner w-4 h-4 text-white"></i>
+                                        </span>
+                                        <span class="font-medium text-brand-graphite">TPO Application</span>
+                                    </span>
+                                    <span class="font-bold text-brand-purple text-lg">Â£80</span>
+                                </label>
+                            </div>
+                        </div></div>
+                    <div class="lg:col-span-1">
+                        <div class="glass-card rounded-2xl p-6 sticky top-8">
+                            <h3 class="text-2xl font-bold text-brand-graphite mb-6">Estimated Total</h3>
+                            <div class="mb-6 p-4 bg-purple-50 rounded-xl border border-brand-purple">
+                                <span class="text-sm font-medium text-brand-purple">Live Total (excl. VAT)</span>
+                                <p id="quote-total" class="text-5xl font-extrabold text-brand-graphite">£0.00</p>
+                            </div>
+                            <p class="text-sm text-gray-600">This is an instant estimate based on your selection. For a detailed, formal proposal, please use our Proposal Builder.</p>
+                            <!-- NEW: Updated CTA color -->
+                            <button class="tab-button w-full mt-6 bg-brand-pink text-white font-bold py-3 px-5 rounded-xl shadow-lg hover:bg-brand-pink-hover" data-tab="builder">
+                                Build Proposal Now &rarr;
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======================= -->
+            <!-- == 2. PROPOSAL BUILDER TAB == -->
+            <!-- ======================= -->
+            <div id="builder-tab" class="tab-content p-6 md:p-8">
+                <form id="proposal-form" class="max-w-3xl mx-auto space-y-6">
+                    <h3 class="text-2xl font-bold text-brand-graphite mb-4">Build Your Proposal</h3>
+                    
+                    <!-- Client Details -->
+                    <fieldset class="glass-card p-4 rounded-lg border-t-2 border-brand-purple">
+                        <legend class="text-lg font-semibold text-brand-graphite px-2">Client Details</legend>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-2">
+                            <div>
+                                <label for="client-name" class="block text-sm font-medium text-gray-700 mb-1">Client Full Name</label>
+                                <input type="text" id="client-name" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-brand-purple focus:border-brand-purple" placeholder="e.g., Sarah Johnson" value="Sarah Johnson">
+                            </div>
+                            <div>
+                                <label for="client-company" class="block text-sm font-medium text-gray-700 mb-1">Client Company (or Event Name)</label>
+                                <input type="text" id="client-company" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-brand-purple focus:border-brand-purple" placeholder="e.g., Johnson-Smith Wedding" value="Johnson-Smith Wedding">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label for="client-address" class="block text-sm font-medium text-gray-700 mb-1">Client Address</label>
+                                <textarea id="client-address" rows="3" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-brand-purple focus:border-brand-purple" placeholder="123 High Street...">123 Kelvingrove, Glasgow, G3 1AA</textarea>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Sender (Your Demo Company) Details -->
+                    <fieldset class="glass-card p-4 rounded-lg border-t-2 border-gray-400">
+                        <legend class="text-lg font-semibold text-brand-graphite px-2">Your Details (Sender)</legend>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-2">
+                            <div>
+                                <label for="sender-name" class="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
+                                <input type="text" id="sender-name" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-brand-purple focus:border-brand-purple" value="Admin User">
+                            </div>
+                            <div>
+                                <label for="sender-company" class="block text-sm font-medium text-gray-700 mb-1">Your Company</label>
+                                <input type="text" id="sender-company" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-brand-purple focus:border-brand-purple" value="Green Canopy">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label for="sender-address" class="block text-sm font-medium text-gray-700 mb-1">Your Address</label>
+                                <textarea id="sender-address" rows="3" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-brand-purple focus:border-brand-purple">Registered Office Address</textarea>
+                            </div>
+                        </div>
+                    </fieldset>
+
+
+                    <!-- Project Details -->
+                    <fieldset class="glass-card p-4 rounded-lg border-t-2 border-brand-purple">
+                        <legend class="text-lg font-semibold text-brand-graphite px-2">Project Details</legend>
+                        <div class="space-y-6 p-2">
+                            <div>
+                                <label for="project-name" class="block text-sm font-medium text-gray-700 mb-1">Project Name</label>
+                                <input type="text" id="project-name" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-brand-purple focus:border-brand-purple" placeholder="e.g., Johnson-Smith Wedding 2026" value="Johnson-Smith Wedding 2026">
+                            </div>
+                            <div>
+                                <label for="project-scope" class="block text-sm font-medium text-gray-700 mb-1">Project Scope / Deliverables</label>
+                                <textarea id="project-scope" rows="6" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-brand-purple focus:border-brand-purple" placeholder="Select items from the Quote Generator or add manually..."></textarea>
+                            </div>
+
+                            <!-- Pricing -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="project-price" class="block text-sm font-medium text-gray-700 mb-1">Total Project Price (£)</label>
+                                    <input type="number" id="project-price" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-brand-purple focus:border-brand-purple bg-gray-100" placeholder="0.00" readonly>
+                                </div>
+                                <div>
+                                    <label for="start-date" class="block text-sm font-medium text-gray-700 mb-1">Estimated Start Date (Event Date)</label>
+                                    <input type="date" id="start-date" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-brand-purple focus:border-brand-purple" value="2026-06-12">
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Generate Button -->
+                    <div class="pt-4 text-center">
+                        <button type="submit" id="generate-proposal-btn" class="w-full md:w-auto bg-brand-purple text-white font-bold py-4 px-10 rounded-xl shadow-lg hover:bg-brand-purple-hover transition-all flex items-center justify-center gap-3 mx-auto">
+                            <i data-lucide="sparkles" class="w-5 h-5"></i>
+                            <span>Generate Secure Proposal</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div> <!-- End of main app container -->
+    </main>
+
+    <!-- ======================= -->
+    <!-- == PROPOSAL MODAL == -->
+    <!-- ======================= -->
+    <div id="proposal-modal" class="modal fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="modal-overlay fixed inset-0 bg-black/50 backdrop-blur-sm"></div>
+        <div class="modal-content-inner glass-modal-content p-6 md:p-8 rounded-2xl shadow-xl w-full max-w-4xl z-10 flex flex-col">
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center mb-4 flex-shrink-0">
+                <h2 class="text-2xl font-bold text-brand-graphite">Your Proposal is Ready</h2>
+                <button class="modal-close text-gray-500 hover:text-gray-800">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            
+            <!-- Modal Body (The Document) -->
+            <div class="bg-white/80 p-6 md:p-10 rounded-lg border border-gray-200 overflow-y-auto">
+                <div id="proposal-content" class="prose max-w-none">
+                    <!-- NEW: Header with logo and sender info -->
+                    <div class="flex justify-between items-start mb-10">
+                        <div>
+                            <h1 class="text-4xl font-extrabold text-brand-purple !mb-2">Event Proposal</h1>
+                            <p class="text-lg text-gray-600 !mt-0">Prepared for: <strong id="prop-client-company" class="text-brand-graphite"></strong></p>
+                        </div>
+                        <div class="text-right">
+                            <div class="flex items-center justify-end gap-2 mb-2">
+                                <span class="w-10 h-10 bg-brand-purple rounded-lg flex items-center justify-center shadow-md">
+                                    <!-- NEW: Updated icon -->
+                                    <i data-lucide="party-popper" class="text-white"></i>
+                                </span>
+                                <h3 id="prop-sender-company" class="text-2xl font-bold text-brand-graphite !m-0"></h3>
+                            </div>
+                            <pre id="prop-sender-address" class="text-gray-600 !m-0 !p-0 !font-sans !text-right"></pre>
+                        </div>
+                    </div>
+
+                    <!-- NEW: Client and Project details grid -->
+                    <div class="grid grid-cols-3 gap-8 mb-8 p-4 bg-purple-50 rounded-lg border">
+                        <div>
+                            <h4 class="font-semibold text-gray-500 !text-sm !uppercase !tracking-wider !mb-1">Prepared For</h4>
+                            <p id="prop-client-name" class="font-medium text-brand-graphite !m-0"></p>
+                            <pre id="prop-client-address" class="text-gray-600 !m-0 !p-0 !font-sans"></pre>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-500 !text-sm !uppercase !tracking-wider !mb-1">Project Name</h4>
+                            <p id="prop-project-name" class="font-medium text-brand-graphite !m-0"></p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-500 !text-sm !uppercase !tracking-wider !mb-1">Est. Event Date</h4>
+                            <p id="prop-start-date" class="font-medium text-brand-graphite !m-0"></p>
+                        </div>
+                    </div>
+
+                    <h2 class="!text-brand-purple !font-bold">Project Scope & Deliverables</h2>
+                    <p>This document outlines the scope of work for the event agreed upon by <strong id="prop-sender-company-2"></strong> and <strong id="prop-client-company-2"></strong>.</p>
+                    <div id="prop-project-scope" class="p-4 bg-gray-50 rounded-lg border border-gray-200 prose-ul:m-0 prose-ul:p-0 prose-ul:list-none">
+                        <!-- Scope content injected here -->
+                    </div>
+
+                    <h2 class="!text-brand-purple !font-bold">Investment</h2>
+                    <div class="flex justify-between items-center bg-purple-50 border border-brand-purple p-6 rounded-lg my-6">
+                        <span class="text-xl font-medium text-brand-graphite">Total Project Investment</span>
+                        <span id="prop-project-price" class="text-4xl font-extrabold text-brand-purple"></span>
+                    </div>
+                    <p class="text-sm text-gray-500">Payment terms: 50% deposit (£<span id="prop-deposit"></span>) required upon acceptance to secure project start date. 50% balance due upon project completion.</p>
+
+                </div>
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="flex justify-end space-x-3 pt-6 flex-shrink-0">
+                <button type="button" class="modal-close bg-gray-100 text-gray-700 font-medium py-2 px-5 rounded-lg hover:bg-gray-200 transition-colors">
+                    Close
+                </button>
+                <button type="button" id="send-proposal-btn" class="bg-brand-purple text-white font-medium py-2 px-5 rounded-lg shadow-sm hover:bg-brand-purple-hover transition-colors flex items-center gap-2">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                    Send Proposal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================== -->
+    <!-- == NEW: FOLLOW-UP (MODAL 2) == -->
+    <!-- ================================== -->
+    <div id="follow-up-modal" class="modal fixed inset-0 z-[60] flex items-center justify-center p-4">
+        <div class="modal-overlay fixed inset-0 bg-black/50 backdrop-blur-sm"></div>
+        <div class="modal-content-inner glass-modal-content p-8 rounded-2xl shadow-xl w-full max-w-md z-10 text-center">
+            <div class="w-16 h-16 bg-brand-purple text-white rounded-full flex items-center justify-center mx-auto mb-6">
+                <i data-lucide="check-check" class="w-10 h-10"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-brand-graphite mb-2">Proposal Sent!</h2>
+            <p class="text-gray-600 mb-6">The proposal has been successfully sent to <strong id="follow-up-client-name">Jane Doe</strong>.</p>
+            
+            <div class="bg-purple-50 p-4 rounded-lg">
+                <button id="schedule-follow-up-btn" class="w-full bg-brand-purple text-white font-medium py-3 px-5 rounded-lg shadow-sm hover:bg-brand-purple-hover transition-colors flex items-center justify-center gap-2">
+                    <i data-lucide="calendar-plus" class="w-5 h-5"></i>
+                    Schedule 7-Day Follow-up
+                </button>
+                <div id="calendar-confirmation" class="confirmation-message mt-3 text-brand-purple font-medium">
+                    <p>✓ Follow-up event added to your calendar!</p>
+                </div>
+            </div>
+
+            <button class="modal-close-all text-gray-500 font-medium mt-6 hover:text-gray-800">
+                Done
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Initialize Lucide icons
+            lucide.createIcons();
+
+            // --- Tab Navigation Logic ---
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.dataset.tab;
+                    
+                    // Update buttons
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    // Find all buttons with this data-tab (for the one in the other tab)
+                    document.querySelectorAll(`.tab-button[data-tab="${tabId}"]`).forEach(b => b.classList.add('active'));
+
+                    // Update content
+                    tabContents.forEach(content => {
+                        content.classList.toggle('active', content.id === `${tabId}-tab`);
+                    });
+                });
+            });
+
+            // --- Quote Generator Logic ---
+            const quoteCheckboxes = document.querySelectorAll('.service-checkbox');
+            const quoteTotalEl = document.getElementById('quote-total');
+            const proposalPriceInput = document.getElementById('project-price');
+            const proposalScopeTextarea = document.getElementById('project-scope');
+
+            function updateQuoteTotal() {
+                let total = 0;
+                let scopeItems = [];
+                quoteCheckboxes.forEach(checkbox => {
+                    if (checkbox.checked) {
+                        total += parseFloat(checkbox.dataset.price);
+                        scopeItems.push(`- ${checkbox.dataset.label}`); // Get label text
+                    }
+                });
+                
+                // 1. Update quote total
+                quoteTotalEl.textContent = `£${total.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                
+                // 2. Update proposal form fields
+                proposalPriceInput.value = total.toFixed(2);
+                proposalScopeTextarea.value = scopeItems.join('\n');
+            }
+            quoteCheckboxes.forEach(checkbox => checkbox.addEventListener('change', updateQuoteTotal));
+            
+            // Run on load to sync any pre-checked boxes
+            updateQuoteTotal();
+
+
+            // --- Proposal Builder Logic ---
+            const proposalForm = document.getElementById('proposal-form');
+            const proposalModal = document.getElementById('proposal-modal');
+            const followUpModal = document.getElementById('follow-up-modal');
+
+            proposalForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                // 1. Get data from form
+                const clientName = document.getElementById('client-name').value;
+                const clientCompany = document.getElementById('client-company').value;
+                const clientAddress = document.getElementById('client-address').value;
+                const senderName = document.getElementById('sender-name').value;
+                const senderCompany = document.getElementById('sender-company').value;
+                const senderAddress = document.getElementById('sender-address').value;
+                const projectName = document.getElementById('project-name').value;
+                const projectScope = document.getElementById('project-scope').value;
+                const projectPrice = parseFloat(document.getElementById('project-price').value) || 0;
+                
+                let startDateValue = document.getElementById('start-date').value;
+                let startDate = "TBC";
+                if (startDateValue) {
+                    // Format date as "12 June 2026"
+                    startDate = new Date(startDateValue).toLocaleDateString('en-GB', {
+                        day: 'numeric', month: 'long', year: 'numeric'
+                    });
+                }
+                
+                // 2. Inject data into proposal modal
+                document.getElementById('prop-client-company').textContent = clientCompany;
+                document.getElementById('prop-client-company-2').textContent = clientCompany;
+                document.getElementById('prop-client-name').textContent = clientName;
+                document.getElementById('prop-client-address').textContent = clientAddress.replace(/\n/g, '\n');
+                
+                document.getElementById('prop-sender-company').textContent = senderCompany;
+                document.getElementById('prop-sender-company-2').textContent = senderCompany;
+                document.getElementById('prop-sender-address').textContent = senderAddress.replace(/\n/g, '\n');
+
+                document.getElementById('prop-project-name').textContent = projectName;
+                document.getElementById('prop-start-date').textContent = startDate;
+                
+                // Format scope to preserve line breaks and make it a list
+                const scopeHtml = projectScope.split('\n')
+                                      .map(item => `<li>${item.replace(/^- /, '')}</li>`)
+                                      .join('');
+                document.getElementById('prop-project-scope').innerHTML = `<ul>${scopeHtml}</ul>`;
+
+                // Format pricing
+                document.getElementById('prop-project-price').textContent = `£${projectPrice.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                document.getElementById('prop-deposit').textContent = (projectPrice / 2).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                
+                // Inject client name into follow-up modal
+                document.getElementById('follow-up-client-name').textContent = clientName;
+
+                // 3. Show modal
+                proposalModal.style.display = 'flex';
+                // Reset follow-up modal confirmation
+                document.getElementById('calendar-confirmation').style.display = 'none';
+            });
+
+            // --- Modal Close Logic ---
+            proposalModal.querySelectorAll('.modal-close, .modal-overlay').forEach(el => {
+                el.addEventListener('click', () => {
+                    proposalModal.style.display = 'none';
+                });
+            });
+
+            // --- Workflow Logic (Modal 1 -> Modal 2) ---
+            const sendProposalBtn = document.getElementById('send-proposal-btn');
+            
+            sendProposalBtn.addEventListener('click', () => {
+                proposalModal.style.display = 'none';
+                followUpModal.style.display = 'flex';
+            });
+            
+            // --- Follow-up Modal Logic ---
+            const scheduleBtn = document.getElementById('schedule-follow-up-btn');
+            const calendarConfirmation = document.getElementById('calendar-confirmation');
+
+            scheduleBtn.addEventListener('click', () => {
+                calendarConfirmation.style.display = 'block';
+                // In a real app, you'd trigger a calendar event here
+            });
+            
+            // Close button for follow-up modal
+            followUpModal.querySelectorAll('.modal-close-all, .modal-overlay').forEach(el => {
+                el.addEventListener('click', () => {
+                    followUpModal.style.display = 'none';
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>
+
