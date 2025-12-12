@@ -1,4 +1,4 @@
----
+﻿---
 import "../styles/global.css";
 import Header from "../components/Header.jsx";
 import LocalSeoFooter from "../components/LocalSeoFooter.astro";
@@ -45,6 +45,7 @@ const {
     <body
         class="min-h-screen flex flex-col overflow-x-hidden font-body selection:bg-accent selection:text-white"
     >
+    <a href="https://empowerdigitalsolutions.com/trades/" class="fixed top-4 left-4 z-[9999] bg-black/80 text-white px-3 py-1 rounded-full text-xs font-medium hover:bg-black transition-all border border-white/20 shadow-lg no-underline backdrop-blur-sm">&larr; Back</a>
         <slot />
 
         <footer class="bg-gray-900 text-white py-12 mt-auto">
@@ -53,7 +54,7 @@ const {
             >
                 <div class="text-sm text-gray-400">
                     &copy; {new Date().getFullYear()}
-                    {title}. All rights reserved.
+                    {title}. All rights reserved. <span class="mx-2 opacity-50">|</span> <a href="https://empowerdigitalsolutions.com/trades/" class="hover:text-white transition-colors">Back</a>
                 </div>
                 <div class="flex gap-6">
                     <a
@@ -86,3 +87,4 @@ const {
         </footer>
     </body>
 </html>
+
