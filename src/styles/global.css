@@ -11,6 +11,7 @@
 
   --radius-button: 1rem;
   /* rounded-2xl */
+  --color-primary: #166534;
 }
 
 @layer utilities {

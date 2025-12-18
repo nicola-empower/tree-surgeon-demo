@@ -1,11 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Job } from '@/lib/constants';
-import { FileText, Send, Bell, CheckCircle, Download, Sparkles, X, Copy } from 'lucide-react';
+import type { Job } from '@/lib/constants';
+import { Send, Bell, CheckCircle, Download } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import { motion, AnimatePresence } from 'framer-motion';
-import { GoogleGenerativeAI } from '@google/generative-ai';
 
 interface InvoiceGeneratorProps {
     jobs: Job[];
@@ -17,10 +16,7 @@ export default function InvoiceGenerator({ jobs, isMobile = false }: InvoiceGene
     const [isGenerating, setIsGenerating] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
 
-    // Email Drafting State
-    const [showEmailModal, setShowEmailModal] = useState(false);
-    const [emailDraft, setEmailDraft] = useState('');
-    const [isDrafting, setIsDrafting] = useState(false);
+
 
     // Filter for completed jobs only
     const completedJobs = jobs.filter(j => j.status === 'Completed');
@@ -75,38 +71,7 @@ export default function InvoiceGenerator({ jobs, isMobile = false }: InvoiceGene
         setTimeout(() => setShowSuccess(false), 5000);
     };
 
-    const handleDraftEmail = async (job: Job) => {
-        setIsDrafting(true);
-        setShowEmailModal(true);
-        setEmailDraft('Generating draft...');
 
-        try {
-            const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-            if (!apiKey) throw new Error('Gemini API Key missing');
-
-            const genAI = new GoogleGenerativeAI(apiKey);
-            const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
-
-            const prompt = `
-                Write a polite, professional email to a client named ${job.client}.
-                Subject: Invoice for ${job.title}
-                Context: I am sending them invoice INV-${job.id} for £${job.price}.
-                The job was at ${job.address}.
-                Payment terms: 7 days.
-                Tone: Friendly but professional.
-                Return ONLY the email body text.
-            `;
-
-            const result = await model.generateContent(prompt);
-            const response = result.response;
-            setEmailDraft(response.text());
-        } catch (error) {
-            console.error(error);
-            setEmailDraft('Failed to generate draft. Please check your API key.');
-        } finally {
-            setIsDrafting(false);
-        }
-    };
 
     const handleSendEmail = () => {
         alert('Simulating email send to client...');
@@ -139,13 +104,7 @@ export default function InvoiceGenerator({ jobs, isMobile = false }: InvoiceGene
                             </div>
 
                             <div className="flex gap-2">
-                                <button
-                                    onClick={() => handleDraftEmail(job)}
-                                    className={`px-4 py-2 rounded-lg font-semibold text-sm flex items-center transition-colors border ${isMobile ? 'border-gray-600 hover:bg-gray-700' : 'border-gray-300 hover:bg-gray-50'}`}
-                                >
-                                    <Sparkles className="w-4 h-4 mr-2 text-[#166534]" />
-                                    Draft Email
-                                </button>
+
                                 <button
                                     onClick={() => generatePDF(job)}
                                     disabled={isGenerating}
@@ -167,47 +126,7 @@ export default function InvoiceGenerator({ jobs, isMobile = false }: InvoiceGene
             )}
 
             {/* Email Draft Modal */}
-            <AnimatePresence>
-                {showEmailModal && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
-                    >
-                        <div className={`w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden ${isMobile ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
-                            <div className="p-4 border-b flex justify-between items-center">
-                                <h3 className="font-bold text-lg flex items-center gap-2">
-                                    <Sparkles className="w-5 h-5 text-[#166534]" />
-                                    AI Email Draft
-                                </h3>
-                                <button onClick={() => setShowEmailModal(false)}><X className="w-5 h-5" /></button>
-                            </div>
-                            <div className="p-6">
-                                <textarea
-                                    value={emailDraft}
-                                    readOnly
-                                    className={`w-full h-64 p-4 rounded-xl resize-none focus:outline-none ${isMobile ? 'bg-gray-800 text-gray-300' : 'bg-gray-50 text-gray-700'}`}
-                                />
-                                <div className="mt-4 flex justify-end gap-2">
-                                    <button
-                                        onClick={() => navigator.clipboard.writeText(emailDraft)}
-                                        className="px-4 py-2 rounded-lg border flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-800"
-                                    >
-                                        <Copy className="w-4 h-4" /> Copy
-                                    </button>
-                                    <button
-                                        onClick={() => { setShowEmailModal(false); handleSendEmail(); }}
-                                        className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 flex items-center gap-2"
-                                    >
-                                        <Send className="w-4 h-4" /> Send
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+
 
             {/* Success Overlay with Animation */}
             <AnimatePresence>
